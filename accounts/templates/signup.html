@@ -5,12 +5,240 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+    <script type="text/javascript">
+        $(window).on('load', function() {
+            $('#signupModal').modal('show');
+        });
+    </script>
+
+
 </head>
 <body>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Sign up</button>
-      </form>
+  
+      <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col-md-6">
+                            <img class="img-fluid" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWiDIXaxrIHWpR6zdR3jLzxhaWWgnigvWJAA&usqp=CAU" alt=""  >
+                        </div>
+                        <div class="col-md-6 ml-auto">
+                            <!-- <p class="h1 text-fluid">Login</p> -->
+                            <form  method="POST">
+                                {% csrf_token %}
+                                <input type="text" class="form-control" name="username" maxlength="150" autofocus="" required="" id="id_username"><br>
+                                <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email"><br>
+                                <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1"><br>
+                                <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2"><br>
+                            
+                                
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- signup modal -->
+                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+                        Launch demo modal
+                    </button> -->
+                    <a href="/accounts/login">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
+                        Login
+                    </button></a>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
+            </form>
+        </div>
+          </div>
+        </div>
+      </div>
+      
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form>
+        </div>
+      </nav>
+
+<!-- container start -->
+
+
+      <div class="container-fluid">
+      <!-- category card -->
+      <!-- <div class="card " style="height:8rem;"><br> -->
+        <div class="card " ><br>
+          <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-1">
+              <center>
+              <img class="rounded-circle img-fluid"  src="https://www.w3schools.com/bootstrap4/newyork.jpg" alt="" width="100" height="100">
+               <p class="fluid">category</p>
+              </center>
+            </div>
+            <div class="col-sm-1">
+              <img class="rounded-circle img-fluid"  src="https://www.w3schools.com/bootstrap4/newyork.jpg" alt="" width="100" height="100">
+              <center><p>cate</p></center>
+            </div>
+            <div class="col-sm-1">
+              <img class="rounded-circle img-fluid" src="https://www.w3schools.com/bootstrap4/newyork.jpg" alt="" width="100" height="100">
+            <center><p>cate</p></center>
+            </div>
+          </div>
+        </div>
+        </div><br>
+
+
+        <!-- bootstrap slidres -->
+        <!-- <div class = "h-100 d-inline-block" style = "width: 400px;height: 800px;; "> -->
+          <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img class="w-100 d-inline-block" style = "height: 300px;" src="data:image/jpeg;base64,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" alt="First slide">
+              </div>
+              <div class="carousel-item">
+                <img class="w-100 d-inline-block" style = "height: 300px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYfOAIXOgSR__Io7_KjrkC1RcAmf8kEkdzJA&usqp=CAU" alt="Second slide">
+              </div>
+              <div class="carousel-item">
+                <img class="w-100 d-inline-block" style = "height: 300px;" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWiDIXaxrIHWpR6zdR3jLzxhaWWgnigvWJAA&usqp=CAU" alt="Third slide">
+              </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+            </a>
+          </div><br>
+        <!-- </div> -->
+
+        <div class="card" style="height:18rem;">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="card">
+                <img class="rounded img-fluid " src="https://www.w3schools.com/bootstrap4/newyork.jpg" alt="" width="100" height="100">
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="card bg-info">
+                <img class="rounded img-fluid" src="https://www.w3schools.com/bootstrap4/newyork.jpg" alt="" width="100" height="100">
+              </div>
+            </div>
+          </div>
+        </div><br>
+
+
+        <!-- bootstrap corosol -->
+
+        <div id="gallery" class="carousel slide" >
+          <div class="carousel-inner">
+              <div class="carousel-item active">
+                  <div class="row">
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/caa8f5/ffffff?text=Image+1" alt="Image 1"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/9984d4/ffffff?text=Image+2" alt="Image 2"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/592e83/ffffff?text=Image+3" alt="Image 3"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/230c33/ffffff?text=Image+4" alt="Image 4"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/b27c66/ffffff?text=Image+5" alt="Image 5"/>
+                      </div>
+                  </div>
+              </div>
+      
+              <div class="carousel-item">
+                  <div class="row">
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/f35b04/ffffff?text=Image+6" alt="Image 6"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/f18701/ffffff?text=Image+7" alt="Image 7"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/f7b801/ffffff?text=Image+8" alt="Image 8"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/7678ed/ffffff?text=Image+9" alt="Image 9"/>
+                      </div>
+      
+                      <div class="col">
+                          <img class="img-fluid" src="http://via.placeholder.com/800x450/3d348b/ffffff?text=Image+10" alt="Image 10"/>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      
+          <a class="carousel-control-prev" href="#gallery" role="button" data-slide="prev">
+              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span class="sr-only">Previous</span>
+          </a>
+      
+          <a class="carousel-control-next" href="#gallery" role="button" data-slide="next">
+              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+              <span class="sr-only">Next</span>
+          </a>
+      </div>
+</div>
+
+
+ 
+      
+    
 </body>
 </html>
