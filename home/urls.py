@@ -1,7 +1,15 @@
 from django.contrib import admin
 from django.urls import path,include
-from .views import *
+from . import views
+from accounts.views import *
+from .views import addProduct
 
 urlpatterns = [
-    path('guest',views.guest,name='guest'),
+    # path('guest',views.guest,name='guest'),
+    # path('home',views.home,name='home'),
+    path('test',test,name='test'),
+    path('testh',views.testh,name='testh'),
+    path('sellerhome',views.sellerHome,name='sellerHome'),
+    path('addproduct',addProduct.as_view(),name='addProduct'),
+
 ]
