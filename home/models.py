@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Category(models.Model):
     name=models.CharField(max_length=50)
     description=models.TextField()
-    category_image_image=models.ImageField(upload_to='category_img/')
+    category_image=models.ImageField(upload_to='category_img/')
     def __str__(self):
         return '{} '.format(self.name)
 

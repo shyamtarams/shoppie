@@ -11,5 +11,6 @@ urlpatterns = [
     path('testh',views.testh,name='testh'),
     path('sellerhome',views.sellerHome,name='sellerHome'),
     path('addproduct',addProduct.as_view(),name='addProduct'),
+    path('deleteproduct/<int:id>',views.deleteProduct),
 
 ]

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 'userauth',
     'accounts',
     'home',
+    'buyer',
 ]
 
 MIDDLEWARE = [
