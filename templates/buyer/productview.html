@@ -17,30 +17,75 @@
 <body>
     {% include 'nav.html'%}
     <!-- <div class="jumbotron"> -->
-    <div class="container-fliud text-center">
-        
+    <div class="container-fluid text-center">
+        <div class=" mt-2">
             <div class="row">
                 
-                <div class="col-sm-2">
-                    <div class="card bg-info">
-                        <h1>info</h1>
-                    </div>
-                </div>
-                <div class="col-sm-8">
-                    <div class="card">
-                        <center>
-                        <img class="img-fluid" src="{{ prod.product_image.url}}" alt="" style="width: 100px;height: 100px;">
-                    </center>
-                    </div>
-                </div>
-                <div class="col-sm-2">
-                    <div class="card bg-info">
-                        <h1>info</h1>
-                    </div>
-                </div>
-            </div>
+                    <!-- <div class="col-sm-3">
+                        <div class="card bg-info">
+                            <h1>info</h1>
+                        </div>
+                    </div> -->
+                    <div class="col-sm-8">
+                        <div class="card " style="border-radius: 0;">
+                            <center>
+                            <img class="img-fluid mt-4" src="{{ prod.product_image.url}}" alt="" style="width: 300px;height: 200px;border-radius: 10px;">
+                        </center>
+                        <h3>{{ prod.name }}</h3> <br>
+                        {{ prod.description }}
+                            <div class="row">
+                                <div class="col-sm-6">
+                                {% if cart %}
+                                    <a href="">
+                                        <button class="btn btn-success">View in Cart</button>
+                                    </a>
+                                {% else %}
 
+                                    <a href="/buyer/addcart/{{prod.id}}">
+                                        <button class="btn btn-info">Add to Cart</button>
+                                    </a>
+                                {% endif %}
+                                </div>
+                                <div class="col-sm-6">
+                                    <button class="btn btn-success mt-1">Buy now</button>
+                                </div>
+                            </div><br>
+                        </div>
+
+                    </div>
+                    <div class="col-sm-4">
+                            <div class="card ">
+                                <h1>info</h1>
+                                <div class="col">
+                                    <div class="" style="border-radius: 20px;">
+                                        <h1>Category</h1>
+                                        <div class="row">
+                                            {% for p in prods %}
+                                            
+                                                <div class="col-sm-6">
+                                                <a href="/buyer/productview/{{p.id}}">
+                                                <div>
+                                                    <center>
+                                                        <img class="img-fluid " src="{{ p.product_image.url}}" style="width: 100px;height: 100px;border-radius: 20px;" alt="">
+                                                    </center>
+                                                    
+                                                </div>
+                                                </a><h6>{{p.name}}</h6>
+                                                <br>
+                                                    
+                                                </div>
+                                            {% endfor %}
+                                           
+                                        
+                                    </div><br>
+                                </div>
+                            </div>
+                    </div>
+                
+            </div>
+           
         </div>
+    </div>
     <!-- </div> -->
 </body>
 </html>

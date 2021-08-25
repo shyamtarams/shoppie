@@ -8,11 +8,12 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2', )
+        fields = ('username', 'email', 'password1', 'password2','status')
 
 class SellerSignUpForm(UserCreationForm):
     fullname=forms.CharField(max_length=254)
     email = forms.EmailField(max_length=254, help_text='Required. Inform a valid email address.')
+    status = forms.CharField(max_length=20)
     class Meta:
         model = User
         fields = ('username', 'fullname', 'email', 'password1', 'password2')
