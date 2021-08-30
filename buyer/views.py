@@ -70,6 +70,7 @@ def productView(request,id):
     author=User.objects.get(username=user)
     prod=Product.objects.get(id=id)
     prods=Product.objects.filter(category=prod.category)
+
     print(prod)
 
     if Cart.objects.filter(author=author,product=prod):
@@ -115,7 +116,7 @@ def allproducts(request,name):
     pdt={
             'prod':prod,
         }
-    return render(request,"buyer/allproduct.html",pdt)
+    return render(request,"buyer/allproducts.html",pdt)
 
 def orderproduct(request,id):
     user=request.user
@@ -146,7 +147,6 @@ def orderproduct(request,id):
     }
     return render(request,"buyer/placeorder.html",pdt)
     
-
 
     
 
