@@ -91,7 +91,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'shoppie_db',
         'USER':'postgres', 
-        'PASSWORD': 'pg@shyam535',
+        'PASSWORD': '******',
         'HOST': '127.0.0.1', 
         'PORT': '5432',
      }
@@ -148,7 +148,7 @@ STATICFILES_DIRS=(
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL='/accounts/dashboard'
+LOGIN_REDIRECT_URL='/buyer/productlist'
 LOGOUT_REDIRECT_URL='/accounts/login'
 
 MEDIA_URL = '/media/'

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .forms import *
 from django.views.generic import ListView, CreateView
 from django.urls import reverse_lazy
+from buyer.models import *
 
 
 from braces.views import GroupRequiredMixin
@@ -91,6 +92,19 @@ class addProduct(GroupRequiredMixin,CreateView):
     def get(self,request):
         cat=Category.objects.all()
         return render(request,"seller/addproduct.html", {'cat':cat})
+
+def orders(request):
+    user=request.user
+    user=User.objects.get(username=user)
+    # seller=Product.objects.get()
+    order=Order.objects.filter(seller=user)
+    sell={
+        'order':order,
+    }
+
+
+    return render(request,"seller/myorders.html",sell)
+
 
 
 
