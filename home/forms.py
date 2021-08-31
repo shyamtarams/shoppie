@@ -8,8 +8,9 @@ class AddProductForm(forms.ModelForm):
     description=forms.CharField(widget=forms.Textarea)
     product_image=forms.FileField()
     stock=forms.IntegerField()
+    price=forms.IntegerField()
     
     class Meta:
         model=Product
-        fields = ('name','category','description','product_image','stock')
+        fields = ('name','category','description','product_image','stock','price')
 

@@ -12,5 +12,6 @@ urlpatterns = [
     path('sellerhome',views.sellerHome,name='sellerHome'),
     path('addproduct',addProduct.as_view(),name='addProduct'),
     path('deleteproduct/<int:id>',views.deleteProduct),
+    path('myorders',views.orders),
 
 ]

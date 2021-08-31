@@ -38,16 +38,6 @@ def buyerHome(request):
                 for p in prod:
                     fprod=fprod | Product.objects.filter(name=p.name)
 
-            
-            # dress
-            dfprod=Product.objects.filter(category="dress")[:5]
-            dsprod=Product.objects.filter(category="dress")[5:10]
-            
-            # sneakers
-            sfprod=Product.objects.filter(category="sneakers")[:5]
-            ssprod=Product.objects.filter(category="sneakers")[5:10]
-            # print(sprod)
-
             offer=Offer.objects.all()
             print(offer)
             
@@ -63,6 +53,16 @@ def buyerHome(request):
                 # 'ssprod':ssprod,
             }
             return render(request,'buyer/buyerhome.html',pdt)
+        else:
+            cat=Category.objects.all()
+            offer=Offer.objects.all()
+            pdt={
+                'offer':offer,
+                'cat':cat,
+            }
+            return render(request,'buyer/buyerhome.html',pdt)
+
+    
         
 
 def productView(request,id):
@@ -131,7 +131,7 @@ def orderproduct(request,id):
 
     if request.method=="POST":
         name=request.POST["name"]
-        address=request.POST["add"]
+        address=request.POST["address"]
         phone=request.POST["phone"]
         zip=request.POST["zip"]
         print(name)
