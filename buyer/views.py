@@ -6,6 +6,11 @@ from .utils import *
 from django.db.models import Min
 from .models import *
 
+
+# send mail
+from shoppie.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 @login_required(login_url='/accounts/guest')
 def buyerHome(request):
     user_status=status(request)
@@ -85,7 +90,6 @@ def productView(request,id):
     return render(request,'buyer/productview.html',pdt)
 
 def addCart(request,id):
-
     user=request.user
     author=User.objects.get(username=user)
     product=Product.objects.get(id=id)
@@ -123,6 +127,7 @@ def orderproduct(request,id):
     author=User.objects.get(username=user)
     prod=Product.objects.get(id=id)
     prods=Product.objects.filter(category=prod.category)
+    print(author.email)
 
     if Cart.objects.filter(author=author,product=prod):
         cart=Cart.objects.filter(author=author,product=prod)
@@ -134,11 +139,19 @@ def orderproduct(request,id):
         address=request.POST["address"]
         phone=request.POST["phone"]
         zip=request.POST["zip"]
-        print(name)
         seller=prod.author
-        print(seller)
         order=Order(name=name,address=address,phone=phone,zip=zip,product=prod,buyer=author,seller=prod.author)
         order.save()
+        prod.stock=prod.stock - 1
+        prod.save()
+        
+        subject = 'shoppie'
+        message = 'you have placed your order to %s'%name+' address %s'%address
+        recepient = author.email
+
+        send_mail(subject,message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+            
+       
     
     pdt={
         'cart':cart,

@@ -31,13 +31,18 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
+            
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
 
             otp=randint(1000,9999)
             print(otp)
             request.session['tp']=otp
 
             subject = 'Welcome'
-            message = 'http://localhost:8000/buyer/productlist'
+            message = 'Warm regards, Your otp for shoppie is %d'%otp
             recepient = form.cleaned_data.get('email')
 
             

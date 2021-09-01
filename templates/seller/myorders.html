@@ -23,8 +23,6 @@
             <div class="col-md-9">
                 <div class="card">
                     <h1>Pending Orders</h1>
-
-                    
                 </div>
                <div class="col-sm-12 mt-2">
                    {% for order in order %}
@@ -38,7 +36,17 @@
                                Address : <h5>{{ order.address }}</h5>
                                Phone number :  <h5>{{ order.phone }}</h5>
                                zip code :  <h5>{{ order.zip }}</h5>
-
+                               
+                               <form action="/confirmorder/{{ order.id }}" method="POST">
+                                   {% csrf_token %}
+                                   when can you deliver product :
+                                   <center>
+                                    <input class="form-control mt-2" type="date" id="date" name="date" style="width: 300px;" required>
+                                    <a href="/confirmorder/{{ order.buyer }}">
+                                        <button type="submit" class="btn btn-info mt-2">access order</button>
+                                    </a>
+                                   </center><br>
+                               </form>
 
                             </div>
                         </div>
