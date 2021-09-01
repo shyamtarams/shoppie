@@ -11,5 +11,6 @@ urlpatterns = [
     path('guest',views.guest,name='guest'),
     path('test',views.test,name='test'),
     path('sellersignup',views.sellersignup,name='sellersignup'),
+    path('verify',views.verify,name='verify'),
     
 ]

@@ -8,6 +8,7 @@
 </head>
 <body>
     <form action="" method="POST">
+        {% csrf_token %}
         <input type="text" name="otp" id="otp">
         <button type="submit">verify</button>
     </form>

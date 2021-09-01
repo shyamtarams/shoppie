@@ -35,24 +35,26 @@
                         {{ prod.description }} <br>
                         MRP : {{ prod.price }}
                             <div class="row">
-                                <div class="col-sm-6">
-                                {% if cart %}
-                                    <a href="/buyer/viewcart">
-                                        <button class="btn btn-success">View in Cart</button>
-                                    </a>
-                                {% else %}
+                               <div class="col-sm-12">
+                                   <form action="" method="POST">
+                                       {% csrf_token %}
 
-                                    <a href="/buyer/addcart/{{prod.id}}">
-                                        <button class="btn btn-info">Add to Cart</button>
-                                    </a>
-                                {% endif %}
-                                </div>
-                                <div class="col-sm-6">
-                                    <a href="/buyer/orderproduct/{{prod.id}}">
-                                        <button class="btn btn-success mt-1">Buy now</button>
-                                    </a>
-                                    
-                                </div>
+                                    <div class="card">
+                                        <input class="form-control" type="text" name="name" id="name" placeholder="Name">
+                                        <input class="form-control  mt-2"  type="textfield" name="address" id="address" placeholder="Address" style="height: 100px;">
+                                    </div>
+                                    <div class="row">
+                                     <div class="col-sm-6">
+                                         <input class="form-control  mt-2" type="number" name="phone" id="phone" placeholder="phone number">
+                                     </div>
+                                     <div class="col-sm-6">
+                                         <input class="form-control mt-2" type="number" name="zip" id="zip" placeholder="zip code">
+                                     </div>
+                                    </div>
+                                    <button class="btn btn-info mt-2"> place order</button>
+                                   </form>
+                        
+                               </div>
                             </div><br>
                         </div>
 
