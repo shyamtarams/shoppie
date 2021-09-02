@@ -16,12 +16,24 @@ def buyerHome(request):
     user_status=status(request)
     print(user_status)
     offer=Offer.objects.all()
+    if request.method=="POST":
+        s=request.POST["search"]
+        print(s)
+        sprod=Product.objects.filter(name__icontains=s)
+        print(sprod)
+        prod={
+            'sprod':sprod,
+        }
+        return render(request,"buyer/product_search.html",prod)
     if user_status=="dis":
         return redirect("/accounts/status")
     else:
         if Product.objects.all():
             cat=Category.objects.all()
             prod=Product.objects.all()
+            cate=Category.objects.none()
+            for c in prod:
+                cate = cate | Category.objects.filter(name = c.category)
             
             # minp=Product.objects.filter().values('price').annotate(Min('price')).order_by('category')
             minp=Product.objects.none()
@@ -49,6 +61,7 @@ def buyerHome(request):
             pdt={
                 'offer':offer,
                 'cat':cat,
+                'cate':cate,
                 'prod':fprod,
                 'minp':minp,
         
@@ -162,5 +175,14 @@ def orderproduct(request,id):
     
 
     
+def productsearch(request):
+    if request.method =="POST":
+        psearch=request.method["search"]
+        print(psearch)
+        pdt={
+            'sprod':sprod,
+        }
+        return render(request,"buyer/product_search.html",pdt)
+    return redirect("/buyer/productlist")
 
 

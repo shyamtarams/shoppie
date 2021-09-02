@@ -99,6 +99,7 @@ def confirmorder(request,id):
             print("no mail")
     return redirect("/myorders")
 
+
     
 
     
