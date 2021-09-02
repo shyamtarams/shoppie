@@ -1,5 +1,4 @@
 # shoppie
-<h1>Shoopie<h1><hr>
-Baabtra Assignment online shopping site
+<h1>Shoopie</h1><hr>
 
-Here the shoppie is online shoping website which will allow a user to find which they like products.
+<h6>Here the shoppie is online shoping website which will allow a user to find which they like products.</h6>
