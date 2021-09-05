@@ -39,21 +39,17 @@
                             <!-- <p class="h1 text-fluid">Login</p> -->
                             <form  method="POST">
                                 {% csrf_token %}
-                                <input type="text" class="form-control" name="username" maxlength="150" autofocus="" required="" id="id_username"><br>
-                                <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email"><br>
-                                <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1"><br>
-                                <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2"><br>
-                                <input type="hidden" class="form-control" name="last_name" id="id_last_name" value="Disabled">
+                                <input type="text" class="form-control" name="username" maxlength="150" autofocus="" required="" id="id_username" placeholder="username"><br>
+                                <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email" placeholder="email"><br>
+                                <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="password"><br>
+                                <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="confirm password"><br>
+                                <input type="hidden" class="form-control" name="last_name" id="id_last_name" value="Disabled"> 
                                 
                         </div>
                       </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <!-- signup modal -->
-                    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
-                        Launch demo modal
-                    </button> -->
                     <a href="/accounts/login">
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signupModal">
                         Login

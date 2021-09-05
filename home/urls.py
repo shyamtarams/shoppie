@@ -14,5 +14,7 @@ urlpatterns = [
     path('deleteproduct/<int:id>',views.deleteProduct),
     path('myorders',views.orders),
     path('confirmorder/<int:id>',views.confirmorder),
+    # path('productsearch/<str:name>',views.productsearch),
+    path('updateproduct/<int:id>',views.updateproduct),
 
 ]

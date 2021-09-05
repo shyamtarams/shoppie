@@ -22,7 +22,7 @@ class Product(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE)
     
     def __str__(self):
-        return '{} '.format(self.name)
+        return '{} {} {} {} {} {} '.format(self.name,self.category,self.description,self.product_image,self.stock,self.price)
     
     def delete(self, *args, **kwargs):
         self.product_image.delete()

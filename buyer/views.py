@@ -81,8 +81,6 @@ def buyerHome(request):
             return render(request,'buyer/buyerhome.html',pdt)
 
     
-        
-
 def productView(request,id):
     user=request.user
     author=User.objects.get(username=user)
@@ -163,17 +161,13 @@ def orderproduct(request,id):
         recepient = author.email
 
         send_mail(subject,message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-            
-       
-    
+        
     pdt={
         'cart':cart,
         'prod':prod,
         'prods':prods,
     }
     return render(request,"buyer/placeorder.html",pdt)
-    
-
     
 def productsearch(request):
     if request.method =="POST":

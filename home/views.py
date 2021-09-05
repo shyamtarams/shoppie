@@ -36,6 +36,20 @@ def sellerHome(request):
     if Order.objects.filter(seller=user):
         ocnt=Order.objects.filter(seller=user).count()
 
+    if request.method=="POST":
+        sr=request.POST["search"]
+        plst=Product.objects.filter(name__icontains=sr)
+        pcnt=Product.objects.filter(author=user).count()
+        pdt={
+            'ocnt':ocnt,
+            'user':user,
+            'plst':plst,
+            'pcnt':pcnt,
+        }
+        return render(request,"seller/dashboard.html",pdt)
+
+    
+
     if Product.objects.filter(author=user):
         plst=Product.objects.filter(author=user).order_by('-date')
         pcnt=Product.objects.filter(author=user).count()
@@ -98,6 +112,64 @@ def confirmorder(request,id):
         else:
             print("no mail")
     return redirect("/myorders")
+
+# def productsearch(request,name):
+#     print(name)
+#     return redirect("/sellerhome")
+
+def updateproduct(request,id):
+    cat=Category.objects.all()
+    pdt=Product.objects.get(id=id)
+    user=request.user
+    user=User.objects.get(username=user)
+    if request.method=="POST":
+        name=request.POST["name"]
+        category=request.POST["category"]
+        description=request.POST["description"]
+        if description:
+            description=description
+        else:
+            description=pdt.description
+        if request.FILES:
+            product_image=request.FILES["product_image"]
+            print(product_image)
+        else:
+            product_image=pdt.product_image
+
+        price=request.POST["price"]
+        if price:
+            price=price
+        else:
+            price=pdt.price
+
+        stock=request.POST["stock"]
+        if stock:
+            stock=stock
+        else:
+            stock=pdt.stock
+
+       
+        print(name,category,description,stock,price, product_image)
+        pdt.name=name
+        pdt.category=category
+        pdt.description=description
+        pdt.product_image=product_image
+        pdt.price=price
+        pdt.stock=stock
+        pdt.author=user
+        pdt.save()
+        # update_product.save()
+        # print(update_product)
+        return redirect("/updateproduct/%d"%id)
+    else:
+        pdt={
+            'cat':cat,
+            'pdt':pdt,
+        }
+        return render(request,"seller/updateproduct.html",pdt)
+
+
+
 
 
     
