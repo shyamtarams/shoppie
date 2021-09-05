@@ -161,8 +161,11 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> 3c5357d5bdf02bfc8eb3021d1ca35435b4195079
