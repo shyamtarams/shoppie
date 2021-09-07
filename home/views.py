@@ -12,9 +12,15 @@ from braces.views import GroupRequiredMixin
 from shoppie.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 
-
-
 from django.contrib.auth.models import User
+
+# rest api
+# from django.contrib.auth.models import User
+from rest_framework import viewsets
+from rest_framework import permissions
+# from .serializers import UserSerializer,CategorySerializer
+from .serializers import CategorySerializer
+
 # Create your views here.
 
 # def guest(request):
@@ -27,44 +33,46 @@ def testh(request):
     return render(request,"home/test.html")
 
 
-def sellerHome(request):
-    user=request.user
-    user=User.objects.get(username=user)
-    plst=""
-    pcnt=""
-    ocnt=""
-    if Order.objects.filter(seller=user):
-        ocnt=Order.objects.filter(seller=user).count()
+class sellerHome(GroupRequiredMixin,ListView):
+    group_required = u"sellers"
+    def sellerHome(request):
+        user=request.user
+        user=User.objects.get(username=user)
+        plst=""
+        pcnt=""
+        ocnt=""
+        if Order.objects.filter(seller=user):
+            ocnt=Order.objects.filter(seller=user).count()
 
-    if request.method=="POST":
-        sr=request.POST["search"]
-        plst=Product.objects.filter(name__icontains=sr)
-        pcnt=Product.objects.filter(author=user).count()
-        pdt={
-            'ocnt':ocnt,
-            'user':user,
-            'plst':plst,
-            'pcnt':pcnt,
-        }
-        return render(request,"seller/dashboard.html",pdt)
+        if request.method=="POST":
+            sr=request.POST["search"]
+            plst=Product.objects.filter(name__icontains=sr)
+            pcnt=Product.objects.filter(author=user).count()
+            pdt={
+                'ocnt':ocnt,
+                'user':user,
+                'plst':plst,
+                'pcnt':pcnt,
+            }
+            return render(request,"seller/dashboard.html",pdt)
 
-    
-
-    if Product.objects.filter(author=user):
-        plst=Product.objects.filter(author=user).order_by('-date')
-        pcnt=Product.objects.filter(author=user).count()
-        pdt={
-            'ocnt':ocnt,
-            'user':user,
-            'plst':plst,
-            'pcnt':pcnt,
-        }
-        return render(request,"seller/dashboard.html",pdt)
         
-    pdt={
-        'user':user,
-    }
-    return render(request,"seller/dashboard.html",pdt)
+
+        if Product.objects.filter(author=user):
+            plst=Product.objects.filter(author=user).order_by('-date')
+            pcnt=Product.objects.filter(author=user).count()
+            pdt={
+                'ocnt':ocnt,
+                'user':user,
+                'plst':plst,
+                'pcnt':pcnt,
+            }
+            return render(request,"seller/dashboard.html",pdt)
+            
+        pdt={
+            'user':user,
+        }
+        return render(request,"seller/dashboard.html",pdt)
 
 
 def deleteProduct(request,id):
@@ -87,16 +95,20 @@ class addProduct(GroupRequiredMixin,CreateView):
         cat=Category.objects.all()
         return render(request,"seller/addproduct.html", {'cat':cat})
 
-def orders(request):
-    user=request.user
-    user=User.objects.get(username=user)
-    # seller=Product.objects.get()
-    order=Order.objects.filter(seller=user)
-    sell={
-        'order':order,
-    }
 
-    return render(request,"seller/myorders.html",sell)
+class orderList(GroupRequiredMixin,ListView):
+    group_required = u"sellers"
+    def orders(request):
+        group_required = u"sellers"
+        user=request.user
+        user=User.objects.get(username=user)
+        # seller=Product.objects.get()
+        order=Order.objects.filter(seller=user)
+        sell={
+            'order':order,
+        }
+
+        return render(request,"seller/myorders.html",sell)
 
 def confirmorder(request,id):
     if request.method=="POST":
@@ -169,6 +181,17 @@ def updateproduct(request,id):
         return render(request,"seller/updateproduct.html",pdt)
 
 
+
+
+
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all().order_by('name')
+    serializer_class = CategorySerializer
 
 
 

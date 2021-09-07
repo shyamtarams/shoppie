@@ -23,6 +23,7 @@ urlpatterns = [
     path('accounts/',include('accounts.urls')),
     path('',include('home.urls')),
     path('buyer/',include('buyer.urls')),
+    path('tapi/',include('test_api.urls')),
     # path('accounts/',include('django.contrib.auth.urls')),
 ]
 
