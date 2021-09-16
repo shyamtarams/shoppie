@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,15 +20,30 @@
         });
     </script>
 
+    <style>
+      .bgimg
+          {
+          background-image:url('{% static "image/online-shopping-bg.jpg" %}');
+          /* background-repeat:no-repeat;
+          background-size:100%; */
+
+          background-size: 1800px 800px;
+          background-repeat: no-repeat;
+          background-position: top;
+          background-attachment: fixed;
+          
+          }
+    </style>
+
 
 </head>
-<body>
+<body class="bgimg">
   
       <div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
                 <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Register</h5>
                 </div>
                 <div class="modal-body">
                     <div class="container-fluid">
@@ -43,7 +59,9 @@
                                 <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email" placeholder="email"><br>
                                 <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="password"><br>
                                 <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="confirm password"><br>
-                                <input type="hidden" class="form-control" name="last_name" id="id_last_name" value="Disabled"> 
+
+                                <input type="hidden" value="buyer" name="rule" maxlength="20" required="" id="id_rule">
+                                <input type="hidden" value="Disabled" name="status" maxlength="20" required="" id="id_status">
                                 
                         </div>
                       </div>

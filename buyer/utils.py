@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 def status(request):
+    User = get_user_model()
     status=User.objects.get(username=request.user)
-    print(status.last_name)
-    if status.last_name=='dis':
-        return 'dis'
+    print(status.status)
+    if status.status=='Disabled':
+        return 'Disabled'
     else:
         return 'true'
     

@@ -40,11 +40,13 @@
                             <form  method="POST">
                                 {% csrf_token %}
                                 <input type="text" class="form-control" name="username" maxlength="150" autofocus="" required="" id="id_username" placeholder="username"><br>
-                                <input type="text" class="form-control" name="fullname" maxlength="150" autofocus="" required="" id="id_fullname" placeholder="fullname"><br>
+                                <input type="text" class="form-control" name="name" maxlength="150" autofocus="" required="" id="id_name" placeholder="fullname"><br>
                                 <input type="email" class="form-control" name="email" maxlength="254" required="" id="id_email" placeholder="email"><br>
                                 <input type="password" class="form-control" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="password"><br>
                                 <input type="password" class="form-control" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="confirm password"><br>
                                 
+                                <input type="hidden" value="seller" name="rule" maxlength="20" required="" id="id_rule">
+                                <input type="hidden" value="Disabled" name="status" maxlength="20" required="" id="id_status">
                                 
                         </div>
                       </div>

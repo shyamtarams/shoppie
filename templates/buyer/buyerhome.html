@@ -103,7 +103,9 @@
                                     {% if p.category == c.name %}
                             
                                   <div class="col">
-                                    <a href="/buyer/productview/{{p.id}}">
+                                    <!-- <a href="/buyer/productview/{{p.id}}"> -->
+                                    <a href="{% url 'productview' id=p.id %}">
+                                  
                                       <div class="card">
                                         <center>
                                           <img class="img-fluid mt-2" src="{{ p.product_image.url }}"  style="height:8rem;width:10rem;"   alt="Image 6"/>

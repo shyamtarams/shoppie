@@ -18,14 +18,25 @@
         });
     </script>
 
+<style>
+  .bgimg
+      {
+      background-image:url('{% static "image/online-shopping-bg.jpg" %}');
+      /* background-repeat:no-repeat;
+      background-size:100%; */
+
+      background-size: 1800px 800px;
+      background-repeat: no-repeat;
+      background-position: top;
+      background-attachment: fixed;
+      
+      }
+</style>
+
 </head>
-<body>
+<body class="bgimg">
    
-<!-- bootstrap modal -->
-<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
-    Launch demo modal
-  </button>
+
   
   <!-- Modal -->
   <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
