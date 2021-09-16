@@ -36,26 +36,40 @@
                         MRP : {{ prod.price }}
                             <div class="row">
                                 <div class="col-sm-6">
-                                {% if cart %}
-                                    <a href="/buyer/viewcart">
-                                        <button class="btn btn-success">View in Cart</button>
-                                    </a>
-                                {% else %}
+                                {% if user %}
+                                    {% if cart %}
+                                        <a href="/buyer/viewcart">
+                                            <button class="btn btn-success">View in Cart</button>
+                                        </a>
+                                    {% else %}
 
-                                    <a href="/buyer/addcart/{{prod.id}}">
+                                        <a href="{% url 'addCart' id=prod.id %}">
+                                            <button class="btn btn-info">Add to Cart</button>
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="/accounts/login">
                                         <button class="btn btn-info">Add to Cart</button>
                                     </a>
                                 {% endif %}
                                 </div>
                                 <div class="col-sm-6">
-                                    <a href="/buyer/orderproduct/{{prod.id}}">
+                                    {% if user %}
+                                        {% if prod.stock == 0 %}
+                                            <button class="btn btn-danger mt-1">No stock</button>
+                                        {% else %}
+                                            <a href="{% url 'orderProduct' id=prod.id %}">
+                                                <button class="btn btn-success mt-1">Buy now</button>
+                                            </a>
+                                        {% endif %}
+                                    {% else %}
+                                    <a href="/accounts/login">
                                         <button class="btn btn-success mt-1">Buy now</button>
                                     </a>
-                                    
+                                    {% endif %}
                                 </div>
                             </div><br>
                         </div>
-
                     </div>
                     <div class="col-sm-4">
                             <div class="card ">
@@ -65,28 +79,22 @@
                                         <h1>Category</h1>
                                         <div class="row">
                                             {% for p in prods %}
-                                            
                                                 <div class="col-sm-6">
                                                 <a href="/buyer/productview/{{p.id}}">
                                                 <div>
                                                     <center>
-                                                        <img class="img-fluid " src="{{ p.product_image.url}}" style="width: 100px;height: 100px;border-radius: 20px;" alt="">
-                                                    </center>
-                                                    
+                                                        <img class="img-fluid " src="{{ p.product_image.url }}" style="width: 100px;height: 100px;border-radius: 20px;" alt="">
+                                                    </center> 
                                                 </div>
                                                 </a><h6>{{p.name}}</h6>
-                                                <br>
-                                                    
+                                                <br>  
                                                 </div>
                                             {% endfor %}
-                                           
-                                       
                                     </div>
-                                    <a href="/buyer/allproducts/{{ prod.category }}">more</a>
+                                    <a href="{% url 'allProducts' name=prod.category %}">more</a>
                                 </div>
                             </div>
                     </div>
-                
             </div>
            
         </div>

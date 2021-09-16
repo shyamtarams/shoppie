@@ -30,15 +30,27 @@
           </div>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/buyer/viewcart">
-          <i class="fa fa-shopping-cart mt-2" aria-hidden="true"></i>
-          </a>
+          {% if user %}
+            <a class="nav-link " href="/buyer/viewcart">
+            <i class="fa fa-shopping-cart mt-2" aria-hidden="true"></i>
+            </a>
+          {% else %}
+            <a class="nav-link " href="/accounts/login">
+            <i class="fa fa-shopping-cart mt-2" aria-hidden="true"></i>
+            </a>
+          {% endif %}
+
         </li>
       </ul>
-      <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+
+      <form class="form-inline my-2 my-lg-0" method="POST" >
+        {% csrf_token %}
+        <input class="form-control mr-sm-2" name="search" id="id_search" type="search" placeholder="Search" aria-label="Search">
+        <a href="/buyer/productlist">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </a>
       </form>
+
     </div>
   </nav>
   {% endblock %}
