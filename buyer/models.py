@@ -1,6 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import myUser
 from home.models import Product
+from datetime import timedelta
+import datetime
 
 # Create your models here.
 
@@ -11,7 +14,8 @@ class Order(models.Model):
     phone=models.CharField(max_length=10)
     zip=models.IntegerField()
     date=models.DateTimeField(auto_now_add=True)
+    delivary_date=models.DateTimeField(default=datetime.datetime.now() + timedelta(days=10))
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    buyer=models.ForeignKey(User,on_delete=models.CASCADE, related_name="buyer")
-    seller=models.ForeignKey(User,on_delete=models.CASCADE, related_name="seller")
+    buyer=models.ForeignKey(myUser,on_delete=models.CASCADE, related_name="buyer")
+    seller=models.ForeignKey(myUser,on_delete=models.CASCADE, related_name="seller")
 

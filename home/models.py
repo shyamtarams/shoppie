@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from accounts.models import myUser
 
-# Create your models here.
+# # Create your models here.
 
 
 class Category(models.Model):
@@ -19,7 +20,7 @@ class Product(models.Model):
     date=models.DateTimeField(auto_now_add=True)
     stock=models.IntegerField()
     category=models.CharField(max_length=50)
-    author=models.ForeignKey(User,on_delete=models.CASCADE)
+    author=models.ForeignKey(myUser,on_delete=models.CASCADE)
     
     def __str__(self):
         return '{} {} {} {} {} {} '.format(self.name,self.category,self.description,self.product_image,self.stock,self.price)
@@ -30,18 +31,18 @@ class Product(models.Model):
     
 class Cart(models.Model):
     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    author=models.ForeignKey(User,on_delete=models.CASCADE)
+    author=models.ForeignKey(myUser,on_delete=models.CASCADE)
     date=models.DateTimeField(auto_now_add=True)
 
-# class Buyer(models.Model):
-#     author=models.ForeignKey(User,on_delete=models.CASCADE)
-#     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-#     date=models.DateTimeField(auto_now_add=True)
+# # class Buyer(models.Model):
+# #     author=models.ForeignKey(myUser,on_delete=models.CASCADE)
+# #     product=models.ForeignKey(Product,on_delete=models.CASCADE)
+# #     date=models.DateTimeField(auto_now_add=True)
 
-# class Seller(models.Model):
-#     author=models.ForeignKey(User,on_delete=models.CASCADE)
-#     product=models.ForeignKey(Product,on_delete=models.CASCADE)
-#     date=models.DateTimeField(auto_now_add=True)
+# # class Seller(models.Model):
+# #     author=models.ForeignKey(myUser,on_delete=models.CASCADE)
+# #     product=models.ForeignKey(Product,on_delete=models.CASCADE)
+# #     date=models.DateTimeField(auto_now_add=True)
 
 class Offer(models.Model):
     offer=models.CharField(max_length=50)

@@ -1,10 +1,14 @@
 from django.shortcuts import render,redirect
 from .forms import *
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView, TemplateView, UpdateView
 from django.urls import reverse_lazy
 from buyer.models import *
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import myUser as User
+from django.contrib.auth import get_user_model
 
+# import views
+from django.views import View
 
 from braces.views import GroupRequiredMixin
 
@@ -12,9 +16,16 @@ from braces.views import GroupRequiredMixin
 from shoppie.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
 
-
-
 from django.contrib.auth.models import User
+
+# rest api
+# from django.contrib.auth.models import User
+from rest_framework import viewsets
+from rest_framework import permissions
+# from .serializers import UserSerializer,CategorySerializer
+from .serializers import CategorySerializer, OfferSerializer
+from buyer.utils import status
+
 # Create your views here.
 
 # def guest(request):
@@ -26,45 +37,53 @@ def home(request):
 def testh(request):
     return render(request,"home/test.html")
 
-
-def sellerHome(request):
-    user=request.user
-    user=User.objects.get(username=user)
-    plst=""
-    pcnt=""
-    ocnt=""
-    if Order.objects.filter(seller=user):
-        ocnt=Order.objects.filter(seller=user).count()
-
-    if request.method=="POST":
-        sr=request.POST["search"]
-        plst=Product.objects.filter(name__icontains=sr)
-        pcnt=Product.objects.filter(author=user).count()
+# class based view
+class sellerHomes(GroupRequiredMixin, View):
+    group_required = u"sellers"
+    def get(self, request):
+        User = get_user_model()
+        username = self.request.user
+        user=User.objects.get(username=username)
+        plst=""
+        pcnt=""
+        ocnt=""
+        if Order.objects.filter(seller=user):
+            ocnt=Order.objects.filter(seller=user).count()
+        if Product.objects.filter(author=user.id):
+            plst=Product.objects.filter(author=user.id).order_by('-date')
+            pcnt=Product.objects.filter(author=user.id).count()
         pdt={
             'ocnt':ocnt,
             'user':user,
             'plst':plst,
             'pcnt':pcnt,
         }
-        return render(request,"seller/dashboard.html",pdt)
-
+        return render(self.request,"seller/dashboard.html",pdt)
     
-
-    if Product.objects.filter(author=user):
-        plst=Product.objects.filter(author=user).order_by('-date')
-        pcnt=Product.objects.filter(author=user).count()
+    def post(self,request):
+        User = get_user_model()
+        username = self.request.user
+        user=User.objects.get(username=username)
+        plst=""
+        pcnt=""
+        ocnt=""
+        if Order.objects.filter(seller=user):
+            ocnt=Order.objects.filter(seller=user).count()
+        if Product.objects.filter(author=user.id):
+            plst=Product.objects.filter(author=user.id).order_by('-date')
+            pcnt=Product.objects.filter(author=user.id).count()
+        if self.request.method=="POST":
+            sr=request.POST["search"]
+            plst=Product.objects.filter(name__icontains=sr)
+            pcnt=Product.objects.filter(author=user).count()
         pdt={
             'ocnt':ocnt,
             'user':user,
             'plst':plst,
             'pcnt':pcnt,
         }
-        return render(request,"seller/dashboard.html",pdt)
-        
-    pdt={
-        'user':user,
-    }
-    return render(request,"seller/dashboard.html",pdt)
+        return render(self.request,"seller/dashboard.html",pdt)
+
 
 
 def deleteProduct(request,id):
@@ -72,6 +91,7 @@ def deleteProduct(request,id):
     return redirect('/sellerhome')
 
 class addProduct(GroupRequiredMixin,CreateView):
+    User = get_user_model()
     group_required = u"sellers"
     model = Product
     form_class = AddProductForm
@@ -87,87 +107,107 @@ class addProduct(GroupRequiredMixin,CreateView):
         cat=Category.objects.all()
         return render(request,"seller/addproduct.html", {'cat':cat})
 
-def orders(request):
-    user=request.user
-    user=User.objects.get(username=user)
-    # seller=Product.objects.get()
-    order=Order.objects.filter(seller=user)
-    sell={
-        'order':order,
-    }
 
-    return render(request,"seller/myorders.html",sell)
+class orderList(GroupRequiredMixin, View):
+    group_required = u"sellers"
+    def get(self, request):
+        User = get_user_model()
+        user=request.user
+        user=User.objects.get(username=user)
+        order=Order.objects.filter(seller=user)
+        sell={
+                'order':order,
+            }
+        return render(request,"seller/myorders.html",sell)
 
-def confirmorder(request,id):
-    if request.method=="POST":
-        order=Order.objects.get(id=id)
-        ddate=request.POST["date"]
-        if order.buyer.email:
-            name=order.product.name
-            address=order.address
-            subject = 'shoppie-delivery'
-            message = 'you have placed your order to %s'%name+' address %s'%address+' will be delivered on or before %s'%ddate
-            recepient = order.buyer.email
-            send_mail(subject,message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-        else:
-            print("no mail")
-    return redirect("/myorders")
+class confirmOrder(GroupRequiredMixin, View):
+    group_required = u"sellers"
+    def post(self, request, *args, **kwargs):
+        if self.request.method=="POST":
+            print("post")
+            order=Order.objects.get(id=self.kwargs['id'])
+            ddate=request.POST["date"]
+            order.delivary_date=ddate
+            order.save()
+            if order.buyer.email:
+                print(ddate)
+                # name=order.product.name
+                # address=order.address
+                # subject = 'shoppie-delivery'
+                # message = 'you have placed your order to %s'%name+' address %s'%address+' will be delivered on or before %s'%ddate
+                # recepient = order.buyer.email
+                # send_mail(subject,message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+            else:
+                print("no mail")
+        return redirect("/myorders")
 
-# def productsearch(request,name):
-#     print(name)
-#     return redirect("/sellerhome")
 
-def updateproduct(request,id):
-    cat=Category.objects.all()
-    pdt=Product.objects.get(id=id)
-    user=request.user
-    user=User.objects.get(username=user)
-    if request.method=="POST":
-        name=request.POST["name"]
-        category=request.POST["category"]
-        description=request.POST["description"]
-        if description:
-            description=description
-        else:
-            description=pdt.description
-        if request.FILES:
-            product_image=request.FILES["product_image"]
-            print(product_image)
-        else:
-            product_image=pdt.product_image
-
-        price=request.POST["price"]
-        if price:
-            price=price
-        else:
-            price=pdt.price
-
-        stock=request.POST["stock"]
-        if stock:
-            stock=stock
-        else:
-            stock=pdt.stock
-
-       
-        print(name,category,description,stock,price, product_image)
-        pdt.name=name
-        pdt.category=category
-        pdt.description=description
-        pdt.product_image=product_image
-        pdt.price=price
-        pdt.stock=stock
-        pdt.author=user
-        pdt.save()
-        # update_product.save()
-        # print(update_product)
-        return redirect("/updateproduct/%d"%id)
-    else:
-        pdt={
-            'cat':cat,
+class updateProduct(GroupRequiredMixin, View):
+    group_required = u"sellers"
+    def get(self, request, *args, **kwargs):
+        pdt = Product.objects.get(id=self.kwargs['id'])
+        cat=Category.objects.all()
+        pdt = {
             'pdt':pdt,
+            'cat':cat,
         }
         return render(request,"seller/updateproduct.html",pdt)
 
+    def post(self, request, *args, **kwargs):
+        pdt = Product.objects.get(id=self.kwargs['id'])
+        cat=Category.objects.all()
+        user = myUser.objects.get(username=self.request.user)
+        if self.request.method == "POST":
+            name=request.POST["name"]
+            category=request.POST["category"]
+            description=request.POST["description"]
+            if description:
+                description=description
+            else:
+                description=pdt.description
+            if request.FILES:
+                product_image=request.FILES["product_image"]
+                print(product_image)
+            else:
+                product_image=pdt.product_image
+
+            price=request.POST["price"]
+            if price:
+                price=price
+            else:
+                price=pdt.price
+
+            stock=request.POST["stock"]
+            if stock:
+                stock=stock
+            else:
+                stock=pdt.stock
+
+        
+            print(name,category,description,stock,price, product_image)
+            pdt.name=name
+            pdt.category=category
+            pdt.description=description
+            pdt.product_image=product_image
+            pdt.price=price
+            pdt.stock=stock
+            pdt.author=user
+            pdt.save()
+            return redirect("/updateproduct/%d"%self.kwargs['id'])
+            
+
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all().order_by('-date_joined')
+#     serializer_class = UserSerializer
+#     permission_classes = [permissions.IsAuthenticated]
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all().order_by('name')
+    serializer_class = CategorySerializer
+
+class OfferViewSet(viewsets.ModelViewSet):
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
 
 
 

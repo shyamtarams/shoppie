@@ -12,7 +12,7 @@
 
 </head>
 <body>
-    {% include 'nav.html'%}
+    {% include 'sellernav.html'%}
     <div class="container-fluid mt-2 text-center">
         <div class="row">
             <div class="col-md-3">
@@ -42,7 +42,8 @@
                                    when can you deliver product :
                                    <center>
                                     <input class="form-control mt-2" type="date" id="date" name="date" style="width: 300px;" required>
-                                    <a href="/confirmorder/{{ order.buyer }}">
+                                    <!-- <a href="/confirmorder/{{ order.buyer }}"> -->
+                                    <a href="{% url  'confirmOrder' id=order.id %}">
                                         <button type="submit" class="btn btn-info mt-2">access order</button>
                                     </a>
                                    </center><br>

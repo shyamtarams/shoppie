@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-6cqbx5zvcm1r9c2+rw8d-l6vlm)@b8o6agl#3_5w*li9y9*1h5
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,9 +42,13 @@ INSTALLED_APPS = [
     'accounts',
     'home',
     'buyer',
+    'rest_framework',
+    'test_api',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -108,18 +112,19 @@ AUTH_PASSWORD_VALIDATORS = [
     # {
     #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
     # },
-    # {
-    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    # },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
     },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
     # {
     #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     # },
 ]
 
-
+#costum user model
+AUTH_USER_MODEL = 'accounts.myUser'
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
@@ -148,7 +153,7 @@ STATICFILES_DIRS=(
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL='/buyer/productlist'
+LOGIN_REDIRECT_URL='/accounts/check'
 LOGOUT_REDIRECT_URL='/accounts/login'
 
 MEDIA_URL = '/media/'
@@ -161,11 +166,7 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-<<<<<<< HEAD
 
-
-
-
-
-=======
->>>>>>> 3c5357d5bdf02bfc8eb3021d1ca35435b4195079
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:4200',
+]
