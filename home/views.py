@@ -23,8 +23,15 @@ from django.contrib.auth.models import User
 from rest_framework import viewsets
 from rest_framework import permissions
 # from .serializers import UserSerializer,CategorySerializer
-from .serializers import CategorySerializer, OfferSerializer
+# from .serializers import CategorySerializer, OfferSerializer,
+from .serializers import *
 from buyer.utils import status
+
+#rest api
+from rest_framework.response import Response
+from django.views.decorators.csrf import csrf_exempt
+#status  return 
+from rest_framework import status
 
 # Create your views here.
 
@@ -208,6 +215,52 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class OfferViewSet(viewsets.ModelViewSet):
     queryset = Offer.objects.all()
     serializer_class = OfferSerializer
+
+#create product api
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    # permission_classes = [IsAuthenticated]
+    serializer_class = ProductSerializer
+    #list product
+    def list(self, request):
+        print(self.request.user)
+        serializer_class = ProductSerializer(self.queryset, many=True)
+        print("list")
+        return Response(serializer_class.data)
+    #create product
+    def create(self, request):
+        print("post")
+        data=request.data
+        print(data["name"])
+        print(data["product_image"])
+        data.update({"author":16})
+        print(data)
+        serializer = ProductSerializer(data=request.data)
+        if serializer.is_valid():
+            print("save")
+            serializer.save()
+        return Response(serializer.data)
+    #update product
+    def update(self, request, pk):
+        product = Product.objects.get(pk=pk)
+        print(product.name)
+        serializer = ProductSerializer(product, data=request.data)
+        print(serializer)
+        if serializer.is_valid():
+            print("save")
+            serializer.save()
+        return Response(serializer.data)
+    #delete product
+    def destroy(self, request,pk):
+        product = Product.objects.get(pk=pk)
+        product.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    
+ 
+    
+
+
 
 
 
