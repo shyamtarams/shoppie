@@ -32,6 +32,11 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 #status  return 
 from rest_framework import status
+from django.utils.decorators import method_decorator
+from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
+from django.http.response import JsonResponse
+import json
 
 # Create your views here.
 
@@ -208,70 +213,80 @@ class updateProduct(GroupRequiredMixin, View):
 #     serializer_class = UserSerializer
 #     permission_classes = [permissions.IsAuthenticated]
 
-class CategoryViewSet(viewsets.ModelViewSet):
-    queryset = Category.objects.all().order_by('name')
-    serializer_class = CategorySerializer
 
-class OfferViewSet(viewsets.ModelViewSet):
-    queryset = Offer.objects.all()
-    serializer_class = OfferSerializer
+#working views
+# class CategoryViewSet(viewsets.ModelViewSet):
+#     queryset = Category.objects.all().order_by('name')
+#     serializer_class = CategorySerializer
 
-#create product api
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    # permission_classes = [IsAuthenticated]
-    serializer_class = ProductSerializer
-    #list product
-    def list(self, request):
-        print(self.request.user)
-        serializer_class = ProductSerializer(self.queryset, many=True)
-        print("list")
-        return Response(serializer_class.data)
-    #create product
-    def create(self, request):
-        print("post")
-        data=request.data
-        print(data["name"])
-        print(data["product_image"])
-        data.update({"author":16})
-        print(data)
-        serializer = ProductSerializer(data=request.data)
-        if serializer.is_valid():
-            print("save")
-            serializer.save()
-        return Response(serializer.data)
-    #update product
-    def update(self, request, pk):
-        product = Product.objects.get(pk=pk)
-        print(product.name)
-        serializer = ProductSerializer(product, data=request.data)
-        print(serializer)
-        if serializer.is_valid():
-            print("save")
-            serializer.save()
-        return Response(serializer.data)
-    #delete product
-    def destroy(self, request,pk):
-        product = Product.objects.get(pk=pk)
-        product.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+# class OfferViewSet(viewsets.ModelViewSet):
+#     queryset = Offer.objects.all()
+#     serializer_class = OfferSerializer
 
-    
+# #create product api
+# class ProductViewSet(viewsets.ModelViewSet):
+#     queryset = Product.objects.all()
+#     # permission_classes = [IsAuthenticated]
+#     serializer_class = ProductSerializer
+#     #list product
+#     def list(self, request):
+#         serializer_class = ProductSerializer(self.queryset, many=True)
+#         return Response(serializer_class.data)
+#     #create product
+#     # @method_decorator(csrf_exempt)
+#     def create(self, request):
+#         print("post")
+#         data=request.data
+#         print(data)
+#         print(data["name"])
+#         # print(data["product_image"])
+#         data.update({"author":'16'})
+#         print(data)
+#         serializer = ProductSerializer(data=request.data)
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("save")
+#             serializer.save()
+#         return Response(serializer.data)
+#     #update product
+#     def update(self, request, pk):
+#         product = Product.objects.get(pk=pk)
+#         print(product.name)
+#         serializer = ProductSerializer(product, data=request.data)
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("save")
+#             serializer.save()
+#         return Response(serializer.data)
+#     #delete product
+#     def destroy(self, request,pk):
+#         product = Product.objects.get(pk=pk)
+#         product.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# @csrf_exempt
+# @api_view(['POST','GET'])
+# def postpro(request):
+#     print("function")
+#     if request.method == 'POST':
+#         name=request.data["name"]
+#         description=request.data["description"]
+#         category=request.data["category"]
+#         price=request.data["price"]
+#         stock=request.data["stock"]
+#         stock=request.data["stock"]
+#         prodimg=request.data["image"]
+#         user=myUser.objects.get(id=16)
+#         prod=Product(name=name,description=description,category=category,price=price,stock=stock,product_image=prodimg,author=user)
+#         prod.save()
+#         return JsonResponse('data in', safe=False)
+       
+
+#     if request.method == 'GET':
+#         user= Product.objects.all()
+#         u_serializers = ProductSerializer(user, many='True' )
+#         return JsonResponse(u_serializers.data, safe=False)
+
+
  
-    
-
-
-
-
-
-
-    
-
-    
-
-
-    
-
-
-    
-

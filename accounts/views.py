@@ -23,6 +23,16 @@ from django.contrib.auth import get_user_model
 #redirect
 from django.http import HttpResponseRedirect
 
+#serializer
+
+from .serializers import UserSerializer
+from .models import myUser as User
+from rest_framework import viewsets
+
+from rest_framework.decorators import api_view
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 
 # @login_required()
@@ -215,4 +225,31 @@ def sellerCompanyRegister(request):
         return render(request,"companyRegister.html")
 
     
+# class UserViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     serializer_class = UserSerializer
+#     def list(self, request):
+#         print("")
 
+
+@csrf_exempt
+@api_view(['POST',])
+def validate(request):
+    if request.method=="POST":
+        # username=data.get("username", None)
+        # password=data.get("password", None)
+        username=request.POST["username"]
+        password=request.POST["password"]
+
+        user = authenticate(username=username, password=password)
+        if user is None:
+            raise serializers.ValidationError(
+                'A user with this email and password is not found.'
+            )
+        else:
+            login(request, user)
+            return {
+                'username':user.username,
+            }
+    else:
+        pass
