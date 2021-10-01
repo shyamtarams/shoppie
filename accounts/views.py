@@ -32,7 +32,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from django.views.decorators.csrf import csrf_exempt
 
-
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from rest_framework.parsers import JSONParser
+from django.http.response import JsonResponse
 
 
 # @login_required()
@@ -233,23 +235,36 @@ def sellerCompanyRegister(request):
 
 
 @csrf_exempt
-@api_view(['POST',])
+@api_view(['POST','GET'])
 def validate(request):
+    print("lg")
     if request.method=="POST":
         # username=data.get("username", None)
         # password=data.get("password", None)
         username=request.POST["username"]
         password=request.POST["password"]
+        print(username)
+        print(password)
+
+        t=obtain_jwt_token(request._request)
+        print(t)
+        print("======")
+
 
         user = authenticate(username=username, password=password)
+        print(user)
         if user is None:
-            raise serializers.ValidationError(
-                'A user with this email and password is not found.'
-            )
+            pass
+            # raise serializers.ValidationError(
+            #     'A user with this email and password is not found.'
+            # )
         else:
             login(request, user)
-            return {
-                'username':user.username,
-            }
+            return JsonResponse(t, safe=False)
+            # return {
+            #     'username':user.username,
+            # #    'token': obtain_jwt_token(request)
+            # }
     else:
-        pass
+        print("-----")
+        return render(request,'registration/login.html')

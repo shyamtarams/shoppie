@@ -174,7 +174,7 @@ CORS_ALLOWED_ORIGINS = [
 
 # APPEND_SLASH=False
 
-#jwt tokens settings
+# jwt tokens settings
 # REST_FRAMEWORK = {
 #     'DEFAULT_PERMISSION_CLASSES': (
 #         'rest_framework.permissions.IsAuthenticatedOrReadOnly',

@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.urls import path,include
 from . import views
 from django.contrib.auth.views import LoginView
+from . import apiview
+
 
 #rest api imports
 from rest_framework import routers
@@ -24,5 +26,8 @@ urlpatterns = [
     path('CompanyRegister',views.sellerCompanyRegister,name='sellerCompanyRegister'),
     #api 
     # path('api/', include(router.urls)),
-    path('lg/',views.validate, name="lg"),
+    path('log/',apiview.validate, name="log"),
+    path('tk/',apiview.obtaint, name="log"),
+    # path('tk/',apiview.validate, name="log"),
+   
 ]

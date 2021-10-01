@@ -65,6 +65,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     #list product
     def list(self, request):
+        print("--------")
         serializer_class = ProductSerializer(self.queryset, many=True)
         print(serializer_class)
         return Response(serializer_class.data)
@@ -76,7 +77,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         print(data)
         print(data["name"])
         # print(data["product_image"])
-        data.update({"author":'16'})
+        data.update({"author":'21'})
         print(data)
         serializer = ProductSerializer(data=request.data)
         print(serializer)
@@ -104,9 +105,11 @@ class ProductViewSet(viewsets.ModelViewSet):
 
 @csrf_exempt
 @api_view(['POST','GET'])
-@permission_classes((IsAuthenticated,))
+# @permission_classes((IsAuthenticated,))
 def postpro(request):
     print("function")
+    # if request.method=="POST" and 'uid' in request.POST:
+    #     print(request.data)
     if request.method == 'POST':
         name=request.data["name"]
         description=request.data["description"]
@@ -115,18 +118,26 @@ def postpro(request):
         stock=request.data["stock"]
         stock=request.data["stock"]
         prodimg=request.data["image"]
-        user=myUser.objects.get(id=16)
+        id=request.data["id"]
+        user=myUser.objects.get(id=id)
         prod=Product(name=name,description=description,category=category,price=price,stock=stock,product_image=prodimg,author=user)
         prod.save()
         return JsonResponse('data in', safe=False)
-       
-    if request.method == 'GET':
-        print(request.user)
-        # user=User.objects.get(username=request.user)
-        user= Product.objects.filter(author=16)
-        print(user)
+    
+    if request.method=="GET":
+        user= Product.objects.all()
         u_serializers = ProductSerializer(user, many='True' )
         return JsonResponse(u_serializers.data, safe=False)
+
+    
+@csrf_exempt
+@api_view(['POST',])
+def listprod(request):
+    id=request.data['uid']
+    user= Product.objects.filter(author=id)
+    u_serializers = ProductSerializer(user, many='True' )
+    return JsonResponse(u_serializers.data, safe=False)
+
 
 @csrf_exempt
 @api_view(['PUT'])
@@ -189,5 +200,24 @@ class ProductCartViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+@csrf_exempt
+@api_view(['POST'])
+# @permission_classes((IsAuthenticated,))
+def create(request):
+    if request.method =="POST":
+        print(request.data)
+        # print()
+       
+
+
+@csrf_exempt
+@api_view(['POST'])
+def check(request):
+    if request.method == "POST":
+        id=request.data
+        role=User.objects.get(id=id)
+        rl=role.rule
+        print(rl)
+        return Response(rl)
 
 

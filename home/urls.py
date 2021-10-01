@@ -32,5 +32,8 @@ urlpatterns = [
     path('prod/',apiview.postpro,name='prod'),
     path('update/',apiview.uppro,name='update'),
     path('delete/',apiview.dlpro,name='delete'),
+    path('create/',apiview.create,name='create'),
+    path('check/',apiview.check,name='check'),
+    path('listprod/',apiview.listprod,name='listprod'),
      
 ]

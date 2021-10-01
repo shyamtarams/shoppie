@@ -21,13 +21,14 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/',include('accounts.urls')),
+    # path('accounts/',include('accounts.urls')),
     path('',include('home.urls')),
     path('buyer/',include('buyer.urls')),
     # path('tapi/',include('test_api.urls')),
-    path('accounts/',include('django.contrib.auth.urls')),
+    # path('accounts/',include('django.contrib.auth.urls')),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
+    # path('accounts/',include('accounts.urls'))
 ]
 
 

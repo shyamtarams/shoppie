@@ -206,6 +206,8 @@ class updateProduct(GroupRequiredMixin, View):
             pdt.author=user
             pdt.save()
             return redirect("/updateproduct/%d"%self.kwargs['id'])
+
+
             
 
 # class UserViewSet(viewsets.ModelViewSet):
