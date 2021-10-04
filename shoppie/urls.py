@@ -28,7 +28,7 @@ urlpatterns = [
     # path('accounts/',include('django.contrib.auth.urls')),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
-    # path('accounts/',include('accounts.urls'))
+    path('accounts/',include('accounts.urls'))
 ]
 
 

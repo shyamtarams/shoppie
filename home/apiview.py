@@ -220,4 +220,65 @@ def check(request):
         print(rl)
         return Response(rl)
 
+@csrf_exempt
+@api_view(['POST'])
+def search(request):
+    s=request.data['sr']
+    print(s)
+    res=Product.objects.filter(name__icontains=s)
+    # return Response(res)
+    u_serializers = ProductSearchSerializer(res, many='True' )
+    return JsonResponse(u_serializers.data, safe=False)
 
+@csrf_exempt
+@api_view(['GET'])
+def listproduct(request):
+    res=Product.objects.all()
+    print(res,"==========")
+    serializer_class = ProductSerializer(res, many=True)
+    print(serializer_class)
+    return JsonResponse(serializer_class.data, safe=False)
+
+
+
+    # if request.method == "POST":
+    #     s=request.data['sr']
+    #     res=Product.objects.filter(name__icontains=s)
+    #     print(s)
+    #     print(res)
+    #     return Response(res)
+
+
+# class ProductSearchViewSet(viewsets.ModelViewSet):
+#     def post(request, self):
+#         data=request.data
+#         print(data)
+#         serializer = ProductSearchSerializer(data=request.data)
+#         print(serializer)
+#         return Response(serializer.data)
+
+#     def get_queryset(self):
+#         s=request.data['sr']
+#         print(s)
+#         return Product.objects.filter(name__icontains=s)
+
+
+@csrf_exempt
+@api_view(['POST'])
+def proddetails(request):
+    id=request.data['pid']
+    user= Product.objects.get(id=id)
+    print(user,"===========")
+    u_serializers = ProductSerializer(user )
+    return JsonResponse(u_serializers.data, safe=False)
+
+@csrf_exempt
+@api_view(['POST'])
+def cateprod(request):
+    cate=request.data['cate']
+    prod= Product.objects.filter(category=cate)
+    print(prod,"--------------------")
+    u_serializers = ProductSerializer(prod, many='True')
+    return JsonResponse(u_serializers.data, safe=False)
+
+   

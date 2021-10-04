@@ -15,6 +15,7 @@ router.register(r'category', apiview.CategoryViewSet,'Category'),
 router.register(r'offer', apiview.OfferViewSet, 'Offer'),
 router.register(r'product', apiview.ProductViewSet, 'product'),
 router.register(r'cart', apiview.ProductCartViewSet, 'cart'),
+# router.register(r'search', apiview.ProductSearchViewSet, 'search'),
 
 urlpatterns = [
     path('test',test,name='test'),
@@ -35,5 +36,9 @@ urlpatterns = [
     path('create/',apiview.create,name='create'),
     path('check/',apiview.check,name='check'),
     path('listprod/',apiview.listprod,name='listprod'),
+    path('search/',apiview.search,name='search'),
+    path('listproduct/',apiview.listproduct,name='listproduct'),
+    path('proddetails/',apiview.proddetails,name='proddetails'),
+    path('cateprod/',apiview.cateprod,name='cateprod'),
      
 ]

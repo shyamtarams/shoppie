@@ -29,3 +29,8 @@ class ProductCartSerializer(serializers.ModelSerializer):
         model = Cart
         fields = ['id','product','author']
 
+class ProductSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['id','name']
+
