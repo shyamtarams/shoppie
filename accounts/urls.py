@@ -12,6 +12,8 @@ router = routers.DefaultRouter()
 #routers
 # router.register(r'login', views.UserViewSet,'login'),
 
+router.register(r'signup', apiview.signupViewSet,'Signup'),
+
 
 urlpatterns = [
     path('signup',views.signup,name='signup'),
@@ -29,5 +31,8 @@ urlpatterns = [
     path('log/',apiview.validate, name="log"),
     path('tk/',apiview.obtaint, name="log"),
     # path('tk/',apiview.validate, name="log"),
+    path('sign/',apiview.signup,name='signup'),
+    #router
+    path('auth/', include(router.urls)),
    
 ]

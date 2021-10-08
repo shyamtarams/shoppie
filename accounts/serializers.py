@@ -23,3 +23,10 @@ class UserSerializer(serializers.Serializer):
     #         }
        
             
+class SignupSerializer(serializers.Serializer):
+    class Meta:
+        model:User
+        fields=['id','username','name','email','password','status','rule']
+    
+    # def create(sef, request):
+    #     pass

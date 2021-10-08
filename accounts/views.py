@@ -69,7 +69,7 @@ def signup(request):
             # user = authenticate(username=username, password=raw_password)
             login(request, user)
 
-            print(request.user)
+           
 
             user=User.objects.get(username=username)
             my_group = Group.objects.get(name='buyer')

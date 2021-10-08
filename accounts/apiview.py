@@ -43,6 +43,9 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from django.contrib.auth import login, authenticate
 
 
+# imports
+from rest_framework import viewsets
+
 
 @csrf_exempt
 @api_view(['POST','GET'])
@@ -130,3 +133,72 @@ def tk(request):
 #     else:
 #         print("-----")
 #         return render(request,'registration/login.html')
+
+@csrf_exempt
+@api_view(['POST'])
+def signup(request):
+    if request.method=="POST":
+        dat=request.data
+        # name=request.data('name')
+        # username=request.data('username')
+        # email=request.data('email')
+        # password=request.data('password')
+
+        # pw=dat['password']
+        # pw=set_password(pw)
+        # print(pw)
+        
+        dat.update({"status":'Disabled'})
+        dat.update({"rule":'buyer'})
+        dat.update({"contact":123})
+        # ruser=User(name=request.data('name'),username=request.data('data'))
+        print(dat)
+        # dat.save()
+
+        serializer = SignupSerializer(data=dat)
+        if serializer.is_valid():
+            print("save")
+            serializer.save()
+        return Response('user in')
+
+
+
+# class signupViewSet(viewsets.ModelViewSet):
+#     queryset = User.objects.all()
+#     # permission_classes = [permissions.IsAuthenticated]
+#     serializer_class = SignupSerializer
+#     def create(self, request):
+#         print("ccc====")
+#         dat=request.data
+#         print(dat)
+#         dat.update({"status":'Disabled',"rule":'buyer'})
+#         # dat.update({"rule":'buyer'})
+#         # dat.update({"contact":123})
+       
+#         serializer = SignupSerializer(data=dat)
+#         print(serializer)
+#         print(serializer)
+#         if serializer.is_valid():
+#             print("save")
+#             serializer.save()
+#         return Response(serializer.data)
+
+class signupViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    # permission_classes = [permissions.IsAuthenticated]
+    serializer_class = SignupSerializer
+    def create(self, request):
+        print("ccc====")
+        dat=request.data
+        print(dat)
+        print(dat['username'])
+        username=dat['username']
+        password=dat['password']
+        email=dat['email']
+        name=dat['fullname']
+        
+        user=User.objects.create_user(username=username,password=password,name=name,email=email,status='Disabled',rule='buyer')
+        login(request, user)
+        # if user:
+        return Response("success")
+

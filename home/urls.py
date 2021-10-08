@@ -40,5 +40,9 @@ urlpatterns = [
     path('listproduct/',apiview.listproduct,name='listproduct'),
     path('proddetails/',apiview.proddetails,name='proddetails'),
     path('cateprod/',apiview.cateprod,name='cateprod'),
+    path('cartprod/',apiview.cartprod,name='cartprod'),
+    path('viewcart/',apiview.viewcart,name='viewcart'),
+    path('checkincart/',apiview.checkcart,name='checkincart'),
+
      
 ]

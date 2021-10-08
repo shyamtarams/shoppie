@@ -52,6 +52,7 @@ from rest_framework.decorators import  permission_classes
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all().order_by('name')
+    print(queryset)
     serializer_class = CategorySerializer
 
 class OfferViewSet(viewsets.ModelViewSet):
@@ -280,5 +281,57 @@ def cateprod(request):
     print(prod,"--------------------")
     u_serializers = ProductSerializer(prod, many='True')
     return JsonResponse(u_serializers.data, safe=False)
+
+@csrf_exempt
+@api_view(['POST','GET'])
+def cartprod(request):
+    if request.method =="POST":
+        print(request.data)
+        u=request.data
+        print(u)
+        ctid=request.data['u']
+        pid=ctid['pid']
+        uid=ctid['uid']
+
+        prod= Product.objects.get(id=pid)
+        user=User.objects.get(id=uid)
+        cart=Cart(author=user,product=prod)
+        cart.save()
+        print(cart)
+        return Response("product added to cart")
+
+@csrf_exempt
+@api_view(['POST'])
+def viewcart(request):
+    uid=request.data['uid']
+    print(uid)
+    user=User.objects.get(id=uid)
+    cart=Cart.objects.filter(author=uid)
+    print(cart)
+    # prod=Product.objects.filter(id=cart.product)//cart
+    # for i in cart:
+    #     prod=Product.objects.filter(id_in=i.product)//cart
+    # u_serializers = CartSerializer(cart, many='True')
+    prod=Product.objects.filter(cart__author=uid)
+    u_serializers = ProductSerializer(prod, many='True')
+    return JsonResponse(u_serializers.data, safe=False)
+
+@csrf_exempt
+@api_view(['POST'])
+def checkcart(request):
+    pid=request.data['pid']
+    print(pid,"c====")
+    # c=Cart.objects.get(product=pid)
+    # print(c,"==c")
+    if Cart.objects.filter(product=pid):
+        print("True ")
+        return Response('cart')
+    else:
+        print("False c")
+        return Response('no')
+    
+     
+    
+        
 
    
