@@ -34,5 +34,7 @@ urlpatterns = [
     path('sign/',apiview.signup,name='signup'),
     #router
     path('auth/', include(router.urls)),
+    path('updateprofile',apiview.updateprofile,name="updateprofile"),
+    path('getuser/<int:uid>',apiview.getuserdetails,name="getuser"),
    
 ]

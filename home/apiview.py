@@ -217,9 +217,12 @@ def check(request):
     if request.method == "POST":
         id=request.data
         role=User.objects.get(id=id)
-        rl=role.rule
-        print(rl)
-        return Response(rl)
+        if role.status=="Disabled":
+            return Response("Disabled")
+        else:
+            rl=role.rule
+            print(rl)
+            return Response(rl)
 
 @csrf_exempt
 @api_view(['POST'])
@@ -298,7 +301,7 @@ def cartprod(request):
         cart=Cart(author=user,product=prod)
         cart.save()
         print(cart)
-        return Response("product added to cart")
+        return Response("success")
 
 @csrf_exempt
 @api_view(['POST'])
@@ -319,11 +322,14 @@ def viewcart(request):
 @csrf_exempt
 @api_view(['POST'])
 def checkcart(request):
-    pid=request.data['pid']
+    args=request.data['u']
+    pid=args['pid']
+    uid=args['uid']
+    print(uid)
     print(pid,"c====")
     # c=Cart.objects.get(product=pid)
     # print(c,"==c")
-    if Cart.objects.filter(product=pid):
+    if Cart.objects.filter(product=pid,author=uid):
         print("True ")
         return Response('cart')
     else:

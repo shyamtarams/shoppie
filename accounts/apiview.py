@@ -45,6 +45,7 @@ from django.contrib.auth import login, authenticate
 
 # imports
 from rest_framework import viewsets
+from random import randint
 
 
 @csrf_exempt
@@ -188,17 +189,45 @@ class signupViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.IsAuthenticated]
     serializer_class = SignupSerializer
     def create(self, request):
-        print("ccc====")
-        dat=request.data
-        print(dat)
-        print(dat['username'])
-        username=dat['username']
-        password=dat['password']
-        email=dat['email']
-        name=dat['fullname']
-        
-        user=User.objects.create_user(username=username,password=password,name=name,email=email,status='Disabled',rule='buyer')
-        login(request, user)
-        # if user:
-        return Response("success")
+        try:
+            print("ccc====")
+            dat=request.data
+            print(dat)
+            print(dat['username'])
+            username=dat['username']
+            password=dat['password']
+            email=dat['email']
+            name=dat['fullname']
+            
+            user=User.objects.create_user(username=username,password=password,name=name,email=email,status='Disabled',rule='buyer')
+            login(request, user)
+            # if user:
+            otp=randint(1000,9999)
+
+            return Response(otp,status=status.HTTP_200_OK)
+        except :
+             return Response("error")
+
+
+@csrf_exempt
+@api_view(['POST'])
+def updateprofile(request):
+    print("u======")
+    print(request.data)
+    uid=request.data['uid']
+    user=myUser.objects.update(status="Enabled")
+    return Response("updated")
+
+@csrf_exempt
+@api_view(['GET'])
+def getuserdetails(request,uid):
+    # uid=request.data['uid']
+    print(uid,"==")
+    user=myUser.objects.get(id=uid)
+    # u_serializers = UserDataSerializer(user)
+    # print(u_serializers.data)
+    userdata = [{'id':user.id,'username':user.username,'name':user.name,'email':user.email}]
+    return JsonResponse(userdata, safe=False)
+
+
 
